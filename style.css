@@ -1,0 +1,10 @@
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.issue-container .list-group-item {
+    display: flex;
+    flex-direction: column;
+}
