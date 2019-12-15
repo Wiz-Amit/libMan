@@ -1,1 +1,3 @@
-<?php include("./v1/index.php") ?>
+<script>
+    document.onload = window.location = window.location + "/v1";
+</script>
