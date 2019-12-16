@@ -14,3 +14,8 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+.list-group-item {
+    margin-bottom: 1px;
+    border-bottom: 1px solid whitesmoke;
+}

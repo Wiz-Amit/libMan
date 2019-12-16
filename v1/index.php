@@ -44,18 +44,18 @@ include_once("./requestHandler.php");
       <div class="container">
         <!-- <h2 class="sec-title m-4 text-center">Issue Book</h2> -->
         <div class="col-md-8 m-auto">
-          <form class="form-inline">
+          <form class="form-inline" action="<?php $_PHP_SELF ?>" method="POST">
             <div class="input-group m-1">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fa fa-book" aria-hidden="true"></i></span>
               </div>
-              <input required type="number" class="form-control" name="book-id" placeholder="Book ID" aria-label="Book ID" aria-describedby="basic-addon1" />
+              <input required type="number" class="form-control" name="book-id" placeholder="Book ID" aria-label="Book ID" />
             </div>
             <div class="input-group m-1">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
               </div>
-              <input required type="email" class="form-control" name="user-email" placeholder="User Email" aria-label="User Email" aria-describedby="basic-addon1" />
+              <input required type="email" class="form-control" name="user-email" placeholder="User Email" aria-label="User Email" />
             </div>
             <button type="submit" class="btn btn-primary m-1">
               Issue Book
@@ -77,9 +77,22 @@ include_once("./requestHandler.php");
               </button>
             </div>
             <ul class="list-group">
-              <li class="list-group-item">
-                <span class="id">1: </span> <span class="name">ABCD</span>
-              </li>
+              <?php
+              $books = getBooks();
+              if ($books->num_rows > 0) {
+                // output data of each row
+                while ($row = $books->fetch_assoc()) {
+                  echo "<li class='list-group-item'>
+                  <span class='id'>" . $row["id"] . ": </span>
+                  <span class='name font-weight-bold'> " . $row["name"] . " </span>
+                  <span class='author'>by " . $row["authors"] . "</span>
+                  <span class='id'>(" . $row["count"] . " copies)</span>
+                  </li>";
+                }
+              } else {
+                echo "0 results";
+              }
+              ?>
             </ul>
           </div>
         </div>
@@ -113,12 +126,36 @@ include_once("./requestHandler.php");
           <div class="card border-light">
             <h3 class="title card-header">Issued</h3>
             <ul class="list-group">
-              <li class="list-group-item">
-                <span class="book"><span class="id">1: </span>
-                  <span class="name">ABCD</span></span><span class="user"><span class="id">1: </span>
+              <!-- <li class="list-group-item">
+                <span class="book">
+                  <span class="id">1: </span>
+                  <span class="name">ABCD</span>
+                </span>
+                <span class="user">
+                  <span class="id">1: </span>
                   <span class="name">John Doe</span>
                 </span>
-              </li>
+              </li> -->
+              <?php
+              $register = getRegister();
+              if ($register->num_rows > 0) {
+                // output data of each row
+                while ($row = $register->fetch_assoc()) {
+                  echo '<li class="list-group-item">
+                  <span class="book">
+                    <span class="id">Book: ' . $row["book_name"] . '</span>
+                    <span class="name"></span>
+                  </span>
+                  <span class="user">
+                    <span class="id">Issued to: ' . $row["username"] . '</span>
+                    <span class="name"></span>
+                  </span>
+                  </li>';
+                }
+              } else {
+                echo "0 results";
+              }
+              ?>
             </ul>
           </div>
         </div>
@@ -143,21 +180,25 @@ include_once("./requestHandler.php");
               <form action="<?php $_PHP_SELF ?>" method="POST">
                 <div class="form-group">
                   <label for="book-name">Book Name: </label>
-                  <input required type="text" class="form-control" name="book-name" id="book-name" aria-describedby="helpId" placeholder="ABCD Book" />
+                  <input required type="text" class="form-control" name="book-name" id="book-name" placeholder="e.g. ABCD Book" />
                 </div>
                 <div class="form-group">
-                  <label for="author-name">Author Name: </label>
-                  <input required type="text" class="form-control" name="author-name" id="author-name" aria-describedby="helpId" placeholder="John Doe" />
+                  <label for="book-authors">Author Name: </label>
+                  <input required type="text" class="form-control" name="book-authors" id="book-authors" placeholder="e.g. John Doe" />
                 </div>
+                <div class="form-group">
+                  <label for="book-count">Books Count: </label>
+                  <input required type="number" class="form-control" name="book-count" id="book-count" placeholder="e.g. 5" min="1" />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  Save
+                </button>
               </form>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">
               Close
-            </button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal">
-              Save
             </button>
           </div>
         </div>
@@ -185,7 +226,7 @@ include_once("./requestHandler.php");
                   <label for="user-email">User Email: </label>
                   <input required type="email" class="form-control" name="user-email" id="user-email" placeholder="john@example.com" />
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Save</button>
               </form>
             </div>
           </div>
