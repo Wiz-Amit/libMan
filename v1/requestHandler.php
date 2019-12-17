@@ -5,7 +5,7 @@ if (isset($_POST["book-name"]) && isset($_POST["book-authors"]) && isset($_POST[
 }
 
 //add user
-if (isset($_POST["user-email"]) && isset($_POST["user-name"])) {
+elseif (isset($_POST["user-email"]) && isset($_POST["user-name"])) {
     // if (preg_match("/[^A-Za-z'-]/", $_POST["user-name"])) {
     //     die("invalid name and name should be alpha");
     // }
@@ -14,7 +14,22 @@ if (isset($_POST["user-email"]) && isset($_POST["user-name"])) {
 }
 
 //issue book
-if (isset($_POST["book-id"]) && isset($_POST["user-email"])) {
+elseif (isset($_POST["book-id"]) && isset($_POST["user-email"])) {
     issueBook($_POST["book-id"], $_POST["user-email"]);
+}
+
+// delete book
+elseif (isset($_POST["book-id"])) {
+    deleteBook($_POST["book-id"]);
+}
+
+//delete user
+elseif (isset($_POST["user-email"])) {
+    deleteUser($_POST["user-email"]);
+}
+
+//unissue book
+elseif (isset($_POST["issue-id"])) {
+    unissueBook($_POST["issue-id"]);
 }
 ?>

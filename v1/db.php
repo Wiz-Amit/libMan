@@ -53,3 +53,27 @@ function issueBook($book_id, $user_email) {
 
     return $result;
 }
+
+function unissueBook($id) {
+    include("../connection.php");
+    $sql = "DELETE FROM `register` WHERE `register`.`id` = $id";
+    $result = $conn->query($sql);
+
+    return $result;
+}
+
+function deleteBook($id) {
+    include("../connection.php");
+    $sql = "DELETE FROM `books` WHERE `books`.`id` = $id";
+    $result = $conn->query($sql);
+
+    return $result;
+}
+
+function deleteUser($id) {
+    include("../connection.php");
+    $sql = "DELETE FROM `users` WHERE `users`.`email` = '$id'";
+    $result = $conn->query($sql);
+
+    return $result;
+}

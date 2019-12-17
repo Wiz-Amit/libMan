@@ -78,20 +78,25 @@ include_once("./requestHandler.php");
             </div>
             <ul class="list-group">
               <?php
-              $books = getBooks();
-              if ($books->num_rows > 0) {
-                // output data of each row
-                while ($row = $books->fetch_assoc()) {
-                  echo "<li class='list-group-item'>
-                  <span class='id'>" . $row["id"] . ": </span>
-                  <span class='name font-weight-bold'> " . $row["name"] . " </span>
-                  <span class='author'>by " . $row["authors"] . "</span>
-                  <span class='id'>(" . $row["count"] . " copies)</span>
-                  </li>";
-                }
-              } else {
-                echo "0 results";
-              }
+                                            $books = getBooks();
+                                            if ($books->num_rows > 0) {
+                                              // output data of each row
+                                              while ($row = $books->fetch_assoc()) {
+                                                echo '<li class="list-group-item">
+                                                <span>
+                                                <span class="id">' . $row["id"] . ': </span>
+                                                <span class="name font-weight-bold"> ' . $row["name"] . ' </span>
+                                                <span class="author">by ' . $row["authors"] . '</span>
+                                                <span class="id">(' . $row["count"] . ' copies)</span></span>
+                                                <form action="' . $_SERVER['PHP_SELF'] . '" method="POST">
+                    <input required hidden type="number" value=' . $row["id"] . ' name="book-id">
+                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                  </form>
+                                                </li>';
+                                              }
+                                            } else {
+                                              echo "0 results";
+                                            }
               ?>
             </ul>
           </div>
@@ -108,15 +113,20 @@ include_once("./requestHandler.php");
             </div>
             <ul class="list-group">
               <?php
-              $users = getUsers();
-              if ($users->num_rows > 0) {
-                // output data of each row
-                while ($row = $users->fetch_assoc()) {
-                  echo "<li class='list-group-item'><span class='name font-weight-bold'> " . $row["name"] . " </span><span class='id'>(" . $row["email"] . ")</span></li>";
-                }
-              } else {
-                echo "0 results";
-              }
+                                            $users = getUsers();
+                                            if ($users->num_rows > 0) {
+                                              // output data of each row
+                                              while ($row = $users->fetch_assoc()) {
+                                                echo '<li class="list-group-item"><span><span class="name font-weight-bold"> ' . $row["name"] . ' </span><span class="id">(' . $row["email"] . ')</span></span>
+                                                <form action="' . $_SERVER['PHP_SELF'] . '" method="POST">
+                    <input required hidden type="email" value=' . $row["email"] . ' name="user-email">
+                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                  </form>
+                                                </li>';
+                                              }
+                                            } else {
+                                              echo "0 results";
+                                            }
               ?>
             </ul>
           </div>
@@ -137,11 +147,12 @@ include_once("./requestHandler.php");
                 </span>
               </li> -->
               <?php
-              $register = getRegister();
-              if ($register->num_rows > 0) {
-                // output data of each row
-                while ($row = $register->fetch_assoc()) {
-                  echo '<li class="list-group-item">
+                                            $register = getRegister();
+                                            if ($register->num_rows > 0) {
+                                              // output data of each row
+                                              while ($row = $register->fetch_assoc()) {
+                                                echo '<li class="list-group-item">
+                  
                   <span class="book">
                     <span class="id">Book: ' . $row["book_name"] . '</span>
                     <span class="name"></span>
@@ -150,11 +161,16 @@ include_once("./requestHandler.php");
                     <span class="id">Issued to: ' . $row["username"] . '</span>
                     <span class="name"></span>
                   </span>
+                  
+                  <form action="' . $_SERVER['PHP_SELF'] . '" method="POST">
+                    <input required hidden type="number" value=' . $row["id"] . ' name="issue-id">
+                    <button type="submit" class="btn btn-primary">Return</button>
+                  </form>
                   </li>';
-                }
-              } else {
-                echo "0 results";
-              }
+                                              }
+                                            } else {
+                                              echo "0 results";
+                                            }
               ?>
             </ul>
           </div>
@@ -190,16 +206,14 @@ include_once("./requestHandler.php");
                   <label for="book-count">Books Count: </label>
                   <input required type="number" class="form-control" name="book-count" id="book-count" placeholder="e.g. 5" min="1" />
                 </div>
-                <button type="submit" class="btn btn-primary">
-                  Save
-                </button>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Close
+                  </button>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
               </form>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-              Close
-            </button>
           </div>
         </div>
       </div>
@@ -226,17 +240,14 @@ include_once("./requestHandler.php");
                   <label for="user-email">User Email: </label>
                   <input required type="email" class="form-control" name="user-email" id="user-email" placeholder="john@example.com" />
                 </div>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Close
+                  </button>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
               </form>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-              Close
-            </button>
-            <!-- <button type="button" class="btn btn-primary">
-              Save
-            </button> -->
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 @import 'https://fonts.googleapis.com/css?family=Nunito&display=swap';
+/* #15d16c */
 
 body {
     font-family: 'Nunito', 'Segoe UI', sans-serif;
@@ -18,4 +19,25 @@ body {
 .list-group-item {
     margin-bottom: 1px;
     border-bottom: 1px solid whitesmoke;
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-group-item form {
+    display: inline;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.issue-container .list-group-item form {
+    opacity: 1;
+}
+
+.list-group-item:hover form {
+    display: inline;
+    opacity: 1;
+}
+
+.modal-footer {
+    border-top: none;
 }
