@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 16, 2019 at 10:18 AM
+-- Generation Time: Dec 17, 2019 at 10:15 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -35,15 +35,14 @@ CREATE TABLE IF NOT EXISTS `books` (
   `authors` varchar(300) NOT NULL,
   `count` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `books`
 --
 
 INSERT INTO `books` (`id`, `name`, `authors`, `count`) VALUES
-(1, 'Test Book', 'Dummy Authors', 2),
-(2, 'test test', 'ami', 4),
+(6, 'Awaken the giant within', 'Tony Robins', 2),
 (3, 'Dummy book', 'adsf', 5),
 (5, 'My new book', 'Dipankar', 20);
 
@@ -60,14 +59,17 @@ CREATE TABLE IF NOT EXISTS `register` (
   `user_email` varchar(100) NOT NULL,
   `issued_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `register`
 --
 
 INSERT INTO `register` (`id`, `book_id`, `user_email`, `issued_on`) VALUES
-(4, 5, 'amit.viacon@gmail.com', '2019-12-16 10:16:47');
+(6, 6, 'amit.viacon@gmail.com', '2019-12-17 09:47:26'),
+(7, 3, 'dipankar@gmail.com', '2019-12-17 09:52:32'),
+(9, 2, 'dipankar@gmail.com', '2019-12-17 10:14:01'),
+(10, 6, 'dipankar@gmail.com', '2019-12-17 10:14:10');
 
 -- --------------------------------------------------------
 
@@ -88,7 +90,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`email`, `name`) VALUES
 ('amit.viacon@gmail.com', 'Amit Hazra'),
-('test@example.com', 'John Doe'),
 ('dipankar@gmail.com', 'Dipankar Barman'),
 ('sharmita@gmail.com', 'Sharmita Shee'),
 ('shubham@viacon.in', 'Shubham Bham');
