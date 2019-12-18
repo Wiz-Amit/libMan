@@ -88,9 +88,8 @@ function updateBook($id, $name, $authors, $count) {
 
 function updateUser($email, $name) {
     include("../connection.php");
-    $sql = "UPDATE `users` SET `name` = '$name' WHERE `users`.`email` = $email;";
+    $sql = "UPDATE `users` SET `name` = '$name' WHERE `users`.`email` = '$email';";
     $result = $conn->query($sql);
-    echo $sql;
 
     return $result;
 }

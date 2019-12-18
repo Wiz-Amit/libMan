@@ -14,7 +14,6 @@ elseif (isset($_POST["user-update"]) && isset($_POST["user-email"]) && isset($_P
     //     die("invalid name and name should be alpha");
     // }
     // echo "email:" . $_POST["user-email"] . "<br> name:" . $_POST["user-name"] . "";
-    echo $_POST["user-update"];
     if($_POST["user-update"] == "true") {
         updateUser($_POST["user-email"], $_POST["user-name"]);
     } else {

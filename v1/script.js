@@ -56,7 +56,7 @@ $(".user-container .list-group li").click(function() {
     .replace(")", "");
   user.name = $(this)
     .find(".name")
-    .html();
+    .html().trim();
 
     $("#add-user-modal")
     .find("[name='user-email']")
