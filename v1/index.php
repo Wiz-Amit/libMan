@@ -84,10 +84,10 @@ include_once("./requestHandler.php");
                                               while ($row = $books->fetch_assoc()) {
                                                 echo '<li class="list-group-item">
                                                 <span>
-                                                <span class="id">' . $row["id"] . ': </span>
-                                                <span class="name font-weight-bold"> ' . $row["name"] . ' </span>
-                                                <span class="author">by ' . $row["authors"] . '</span>
-                                                <span class="id">(' . $row["count"] . ' copies)</span></span>
+                                                <span class="id">' . $row["id"] . '</span>
+                                                <span class="name font-weight-bold">: ' . $row["name"] . ' </span>
+                                                <span class="authors">by ' . $row["authors"] . '</span>
+                                                <span class="count">(' . $row["count"] . ' copies)</span></span>
                                                 <form action="' . $_SERVER['PHP_SELF'] . '" method="POST">
                     <input required hidden type="number" value=' . $row["id"] . ' name="book-id">
                     <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -195,6 +195,9 @@ include_once("./requestHandler.php");
             <div class="container-fluid">
               <form action="<?php $_PHP_SELF ?>" method="POST">
                 <div class="form-group">
+                  <input hidden required value="0" type="number" class="form-control" name="book-id" id="book-id" />
+                </div>
+                <div class="form-group">
                   <label for="book-name">Book Name: </label>
                   <input required type="text" class="form-control" name="book-name" id="book-name" placeholder="e.g. ABCD Book" />
                 </div>
@@ -232,6 +235,7 @@ include_once("./requestHandler.php");
           <div class="modal-body">
             <div class="container-fluid">
               <form action="<?php $_PHP_SELF ?>" method="POST">
+                <input hidden type="text" name="user-update" value="false">
                 <div class="form-group">
                   <label for="user-name">User Name: </label>
                   <input required type="text" class="form-control" name="user-name" id="user-name" placeholder="John Doe" />
@@ -252,19 +256,12 @@ include_once("./requestHandler.php");
         </div>
       </div>
     </div>
-
-    <script>
-      $("#exampleModal").on("show.bs.modal", event => {
-        var button = $(event.relatedTarget);
-        var modal = $(this);
-        // Use above variables to manipulate the DOM
-      });
-    </script>
   </section>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="../jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="./script.js"></script>
 </body>
 
 </html>

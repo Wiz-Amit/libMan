@@ -77,3 +77,20 @@ function deleteUser($id) {
 
     return $result;
 }
+
+function updateBook($id, $name, $authors, $count) {
+    include("../connection.php");
+    $sql = "UPDATE `books` SET `name` = '$name', `authors` = '$authors', `count` = '$count' WHERE `books`.`id` = $id;";
+    $result = $conn->query($sql);
+
+    return $result;
+}
+
+function updateUser($email, $name) {
+    include("../connection.php");
+    $sql = "UPDATE `users` SET `name` = '$name' WHERE `users`.`email` = $email;";
+    $result = $conn->query($sql);
+    echo $sql;
+
+    return $result;
+}
