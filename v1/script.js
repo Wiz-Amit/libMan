@@ -81,6 +81,7 @@ $(".user-container .list-group li").click(function() {
       .replace("(", "")
       .replace(")", "")
   );
+  checkActiveUser();
 });
 
 $(".books-container .list-group li").click(function() {
@@ -89,4 +90,31 @@ $(".books-container .list-group li").click(function() {
       .find(".id")
       .html()
   );
+  checkActiveBook();
 });
+
+$(".issue [name='book-id']").keyup(function () { 
+  checkActiveBook();
+});
+
+$(".issue [name='user-email']").keyup(function () { 
+  checkActiveUser();
+});
+
+function checkActiveBook() {
+  $(".books-container [data-id]").each(function() {
+    $(this).removeClass("active");
+  });
+  if($(".issue [name='book-id']").val()) $(".books-container [data-id=" + $(".issue [name='book-id']").val() + "]").addClass("active");
+}
+
+$(".issue [name='user-email']").keyup(function () { 
+  checkActiveUser();
+});
+
+function checkActiveUser() {
+  $(".user-container [data-id]").each(function() {
+    $(this).removeClass("active");
+  });
+  if($(".issue [name='user-email']").val()) $(".user-container [data-id='" + $(".issue [name='user-email']").val() + "']").addClass("active");
+}

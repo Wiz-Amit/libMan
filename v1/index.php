@@ -67,7 +67,7 @@ include_once("./requestHandler.php");
 
     <section class="lists p-5">
       <div class="row">
-        <div class="col-md-4 books-container">
+        <div class="col-md-4 books-container mb-2">
           <div class="card border-light">
             <div class="card-header">
               <h3 class="title">Books</h3>
@@ -82,7 +82,7 @@ include_once("./requestHandler.php");
               if ($books->num_rows > 0) {
                 // output data of each row
                 while ($row = $books->fetch_assoc()) {
-                  echo '<li class="list-group-item">
+                  echo '<li class="list-group-item" data-id="'.$row["id"].'">
                                                 <span>
                                                 <span class="id">' . $row["id"] . '</span>
                                                 <span class="name font-weight-bold">: ' . $row["name"] . ' </span>
@@ -99,7 +99,7 @@ include_once("./requestHandler.php");
           </div>
         </div>
 
-        <div class="col-md-4 user-container">
+        <div class="col-md-4 user-container mb-2">
           <div class="card border-light">
             <div class="card-header">
               <h3 class="title">Users</h3>
@@ -114,7 +114,7 @@ include_once("./requestHandler.php");
               if ($users->num_rows > 0) {
                 // output data of each row
                 while ($row = $users->fetch_assoc()) {
-                  echo '<li class="list-group-item"><span><span class="name font-weight-bold"> ' . $row["name"] . ' </span><span class="id">(' . $row["email"] . ')</span></span>
+                  echo '<li class="list-group-item" data-id="' . $row["email"] . '"><span><span class="name font-weight-bold"> ' . $row["name"] . ' </span><span class="id">(' . $row["email"] . ')</span></span>
                         <button name="edit-user" class="btn btn-primary"><i class="fas fa-pen"></i></button>
                         </li>';
                 }
@@ -126,7 +126,7 @@ include_once("./requestHandler.php");
           </div>
         </div>
 
-        <div class="col-md-4 issue-container">
+        <div class="col-md-4 issue-container mb-2">
           <div class="card border-light">
             <h3 class="title card-header">Issued</h3>
             <ul class="list-group">

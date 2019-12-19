@@ -3,7 +3,7 @@
 function getUsers()
 {
     include("../connection.php");
-    $sql = "SELECT * FROM users";
+    $sql = "SELECT * FROM users ORDER BY `name` asc;";
     $result = $conn->query($sql);
 
     return $result;
@@ -21,7 +21,7 @@ function addUser($email, $name)
 function getBooks()
 {
     include("../connection.php");
-    $sql = "SELECT * FROM books";
+    $sql = "SELECT * FROM books ORDER BY `name` asc;";
     $result = $conn->query($sql);
 
     return $result;
@@ -30,7 +30,8 @@ function getBooks()
 function addBook($name, $authors, $count)
 {
     include("../connection.php");
-    $sql = "INSERT INTO `books` (`id`, `name`, `authors`, `count`) VALUES (NULL, '" . $name . "', '" . $authors . "', '" . $count . "');";
+    $sql = "INSERT INTO `books` (`id`, `name`, `authors`, `count`)
+    VALUES (NULL, '" . $name . "', '" . $authors . "', '" . $count . "');";
     $result = $conn->query($sql);
 
     return $result;
@@ -40,7 +41,7 @@ function getRegister() {
     include("../connection.php");
     $sql = "SELECT * FROM `register`
     INNER JOIN (SELECT email as user_email, name as username FROM `users`) u ON register.user_email = u.user_email
-    INNER JOIN (SELECT id as book_id, name as book_name FROM `books`) b on register.book_id = b.book_id;";
+    INNER JOIN (SELECT id as book_id, name as book_name FROM `books`) b on register.book_id = b.book_id ORDER BY id desc;";
     $result = $conn->query($sql);
 
     return $result;
