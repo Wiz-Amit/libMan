@@ -154,3 +154,14 @@ function initListFilter(searchSelector, listItemSelector) {
     });
   });
 }
+
+
+initSearchPanelToggler(".books-container [name='search']", ".books-container [name='search-books']");
+initSearchPanelToggler(".user-container [name='search']", ".user-container [name='search-users']");
+
+function initSearchPanelToggler(buttonSelector, searchPanelSelector) {
+  $(searchPanelSelector).toggle();
+  $(buttonSelector).click(function(){
+    $(searchPanelSelector).slideToggle();
+  });
+}
