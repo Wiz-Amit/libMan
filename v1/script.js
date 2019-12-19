@@ -4,20 +4,19 @@
 //   // Use above variables to manipulate the DOM
 // });
 
-$(".books-container .list-group li").click(function() {
+$(".books-container .list-group li [name='edit-book']").click(function() {
   var book = {};
-  book.id = $(this)
-    .find(".id")
-    .html();
-  book.name = $(this)
+  var target = $(this).parent("li");
+  book.id = target.find(".id").html();
+  book.name = target
     .find(".name")
     .html()
     .replace(": ", "");
-  book.authors = $(this)
+  book.authors = target
     .find(".authors")
     .html()
     .replace("by ", "");
-  book.count = $(this)
+  book.count = target
     .find(".count")
     .html()
     .match(/\d+/)[0];
@@ -43,31 +42,51 @@ $(".books-container .list-group li").click(function() {
   $("#add-book-modal").modal("show");
 });
 
-$(".user-container .list-group li").click(function() {
+$(".user-container .list-group li [name='edit-user']").click(function() {
   $("#add-user-modal")
     .find("[name='user-update']")
     .attr("value", "true");
 
   var user = {};
-  user.id = $(this)
+  var target = $(this).parent("li");
+  user.id = target
     .find(".id")
     .html()
     .replace("(", "")
     .replace(")", "");
-  user.name = $(this)
+  user.name = target
     .find(".name")
-    .html().trim();
+    .html()
+    .trim();
 
-    $("#add-user-modal")
+  $("#add-user-modal")
     .find("[name='user-email']")
     .val(user.id);
 
-    // $("#add-user-modal")
-    // .find("[name='user-email']").attr("disabled", true)
+  // $("#add-user-modal")
+  // .find("[name='user-email']").attr("disabled", true)
 
   $("#add-user-modal")
     .find("[name='user-name']")
     .val(user.name);
 
   $("#add-user-modal").modal("show");
+});
+
+$(".user-container .list-group li").click(function() {
+  $(".issue [name='user-email']").val(
+    $(this)
+      .find(".id")
+      .html()
+      .replace("(", "")
+      .replace(")", "")
+  );
+});
+
+$(".books-container .list-group li").click(function() {
+  $(".issue [name='book-id']").val(
+    $(this)
+      .find(".id")
+      .html()
+  );
 });

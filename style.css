@@ -21,23 +21,31 @@ body {
     border-bottom: 1px solid whitesmoke;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
 }
 
-.list-group-item form {
+.list-group-item [name*='edit'] {
     display: inline;
     opacity: 0;
     transition: 0.3s;
 }
 
-.issue-container .list-group-item form {
+.issue-container .list-group-item [name*='edit'] {
     opacity: 1;
+    display: flex;
 }
 
-.list-group-item:hover form {
+.list-group-item:hover [name*='edit'] {
     display: inline;
     opacity: 1;
 }
 
 .modal-footer {
     border-top: none;
+}
+
+.issue-container .info {
+    display: flex;
+    flex-direction: column;
 }

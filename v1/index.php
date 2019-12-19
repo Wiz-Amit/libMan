@@ -57,7 +57,7 @@ include_once("./requestHandler.php");
               </div>
               <input required type="email" class="form-control" name="user-email" placeholder="User Email" aria-label="User Email" />
             </div>
-            <button type="submit" class="btn btn-primary m-1">
+            <button type="submit" name="issue-book" class="btn btn-primary m-1">
               Issue Book
             </button>
           </form>
@@ -78,25 +78,22 @@ include_once("./requestHandler.php");
             </div>
             <ul class="list-group">
               <?php
-                                            $books = getBooks();
-                                            if ($books->num_rows > 0) {
-                                              // output data of each row
-                                              while ($row = $books->fetch_assoc()) {
-                                                echo '<li class="list-group-item">
+              $books = getBooks();
+              if ($books->num_rows > 0) {
+                // output data of each row
+                while ($row = $books->fetch_assoc()) {
+                  echo '<li class="list-group-item">
                                                 <span>
                                                 <span class="id">' . $row["id"] . '</span>
                                                 <span class="name font-weight-bold">: ' . $row["name"] . ' </span>
                                                 <span class="authors">by ' . $row["authors"] . '</span>
                                                 <span class="count">(' . $row["count"] . ' copies)</span></span>
-                                                <form action="' . $_SERVER['PHP_SELF'] . '" method="POST">
-                    <input required hidden type="number" value=' . $row["id"] . ' name="book-id">
-                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                  </form>
+                                                <button name="edit-book" class="btn btn-primary"><i class="fas fa-pen"></i></button>
                                                 </li>';
-                                              }
-                                            } else {
-                                              echo "0 results";
-                                            }
+                }
+              } else {
+                echo "0 results";
+              }
               ?>
             </ul>
           </div>
@@ -113,20 +110,17 @@ include_once("./requestHandler.php");
             </div>
             <ul class="list-group">
               <?php
-                                            $users = getUsers();
-                                            if ($users->num_rows > 0) {
-                                              // output data of each row
-                                              while ($row = $users->fetch_assoc()) {
-                                                echo '<li class="list-group-item"><span><span class="name font-weight-bold"> ' . $row["name"] . ' </span><span class="id">(' . $row["email"] . ')</span></span>
-                                                <form action="' . $_SERVER['PHP_SELF'] . '" method="POST">
-                    <input required hidden type="email" value=' . $row["email"] . ' name="user-email">
-                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                  </form>
-                                                </li>';
-                                              }
-                                            } else {
-                                              echo "0 results";
-                                            }
+              $users = getUsers();
+              if ($users->num_rows > 0) {
+                // output data of each row
+                while ($row = $users->fetch_assoc()) {
+                  echo '<li class="list-group-item"><span><span class="name font-weight-bold"> ' . $row["name"] . ' </span><span class="id">(' . $row["email"] . ')</span></span>
+                        <button name="edit-user" class="btn btn-primary"><i class="fas fa-pen"></i></button>
+                        </li>';
+                }
+              } else {
+                echo "0 results";
+              }
               ?>
             </ul>
           </div>
@@ -147,30 +141,32 @@ include_once("./requestHandler.php");
                 </span>
               </li> -->
               <?php
-                                            $register = getRegister();
-                                            if ($register->num_rows > 0) {
-                                              // output data of each row
-                                              while ($row = $register->fetch_assoc()) {
-                                                echo '<li class="list-group-item">
+              $register = getRegister();
+              if ($register->num_rows > 0) {
+                // output data of each row
+                while ($row = $register->fetch_assoc()) {
+                  echo '<li class="list-group-item">
                   
-                  <span class="book">
-                    <span class="id">Book: ' . $row["book_name"] . '</span>
-                    <span class="name"></span>
-                  </span>
-                  <span class="user">
-                    <span class="id">Issued to: ' . $row["username"] . '</span>
-                    <span class="name"></span>
+                  <span class="info">
+                    <span class="book">
+                      <span class="id">Book: ' . $row["book_name"] . '</span>
+                      <span class="name"></span>
+                    </span>
+                    <span class="user">
+                      <span class="id">Issued to: ' . $row["username"] . '</span>
+                      <span class="name"></span>
+                    </span>
                   </span>
                   
                   <form action="' . $_SERVER['PHP_SELF'] . '" method="POST">
                     <input required hidden type="number" value=' . $row["id"] . ' name="issue-id">
-                    <button type="submit" class="btn btn-primary">Return</button>
+                    <button type="submit" name="return-book" class="btn btn-primary">Return</button>
                   </form>
                   </li>';
-                                              }
-                                            } else {
-                                              echo "0 results";
-                                            }
+                }
+              } else {
+                echo "0 results";
+              }
               ?>
             </ul>
           </div>
@@ -210,10 +206,10 @@ include_once("./requestHandler.php");
                   <input required type="number" class="form-control" name="book-count" id="book-count" placeholder="e.g. 5" min="1" />
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    Close
+                  <button type="submit" name="delete-book" class="btn btn-danger">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
                   </button>
-                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button type="submit" name="save-book" class="btn btn-primary">Save</button>
                 </div>
               </form>
             </div>
@@ -245,10 +241,10 @@ include_once("./requestHandler.php");
                   <input required type="email" class="form-control" name="user-email" id="user-email" placeholder="john@example.com" />
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    Close
+                  <button type="submit" name="delete-user" class="btn btn-danger">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
                   </button>
-                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button type="submit" name="save-user" class="btn btn-primary">Save</button>
                 </div>
               </form>
             </div>
