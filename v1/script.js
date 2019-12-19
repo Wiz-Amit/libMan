@@ -4,6 +4,17 @@
 //   // Use above variables to manipulate the DOM
 // });
 
+resetFormOnModalExit("#add-book-modal");
+resetFormOnModalExit("#add-user-modal");
+
+function resetFormOnModalExit(selector) {
+  $(selector).on("hidden.bs.modal", function() {
+    $(this)
+      .find("form")
+      .trigger("reset");
+  });
+}
+
 $(".books-container .list-group li [name='edit-book']").click(function() {
   var book = {};
   var target = $(this).parent("li");
@@ -23,7 +34,7 @@ $(".books-container .list-group li [name='edit-book']").click(function() {
 
   $("#add-book-modal")
     .find("[name='book-id']")
-    .val(book.id);
+    .attr('value', book.id);
 
   $("#add-book-modal")
     .find("[name='book-name']")
@@ -42,6 +53,11 @@ $(".books-container .list-group li [name='edit-book']").click(function() {
   $("#add-book-modal").modal("show");
 });
 
+$($("#add-user-modal")).click(function() {
+  $(this)
+    .find("[name='user-update']")
+    .attr("value", "false");
+});
 $(".user-container .list-group li [name='edit-user']").click(function() {
   $("#add-user-modal")
     .find("[name='user-update']")
@@ -73,6 +89,8 @@ $(".user-container .list-group li [name='edit-user']").click(function() {
   $("#add-user-modal").modal("show");
 });
 
+
+//highlight selections made on issue form
 $(".user-container .list-group li").click(function() {
   $(".issue [name='user-email']").val(
     $(this)
@@ -85,6 +103,7 @@ $(".user-container .list-group li").click(function() {
 });
 
 $(".books-container .list-group li").click(function() {
+  // if ($(e.target).find("button").length === 0) return;
   $(".issue [name='book-id']").val(
     $(this)
       .find(".id")
@@ -93,11 +112,11 @@ $(".books-container .list-group li").click(function() {
   checkActiveBook();
 });
 
-$(".issue [name='book-id']").keyup(function () { 
+$(".issue [name='book-id']").keyup(function() {
   checkActiveBook();
 });
 
-$(".issue [name='user-email']").keyup(function () { 
+$(".issue [name='user-email']").keyup(function() {
   checkActiveUser();
 });
 
@@ -105,16 +124,33 @@ function checkActiveBook() {
   $(".books-container [data-id]").each(function() {
     $(this).removeClass("active");
   });
-  if($(".issue [name='book-id']").val()) $(".books-container [data-id=" + $(".issue [name='book-id']").val() + "]").addClass("active");
+  if ($(".issue [name='book-id']").val())
+    $(
+      ".books-container [data-id=" + $(".issue [name='book-id']").val() + "]"
+    ).addClass("active");
 }
-
-$(".issue [name='user-email']").keyup(function () { 
-  checkActiveUser();
-});
 
 function checkActiveUser() {
   $(".user-container [data-id]").each(function() {
     $(this).removeClass("active");
   });
-  if($(".issue [name='user-email']").val()) $(".user-container [data-id='" + $(".issue [name='user-email']").val() + "']").addClass("active");
+  if ($(".issue [name='user-email']").val())
+    $(
+      ".user-container [data-id='" +
+        $(".issue [name='user-email']").val() +
+        "']"
+    ).addClass("active");
+}
+
+initListFilter('[name="search-books"]', '.books-container .list-group-item');
+initListFilter('[name="search-users"]', '.user-container .list-group-item');
+
+function initListFilter(searchSelector, listItemSelector) {
+  $(searchSelector).on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    console.log(value);
+    $(listItemSelector).filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
 }

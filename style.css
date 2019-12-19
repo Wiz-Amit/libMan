@@ -1,51 +1,92 @@
-@import 'https://fonts.googleapis.com/css?family=Nunito&display=swap';
+@import "https://fonts.googleapis.com/css?family=Nunito&display=swap";
 /* #15d16c */
 
 body {
-    font-family: 'Nunito', 'Segoe UI', sans-serif;
+  font-family: "Nunito", "Segoe UI", sans-serif;
 }
 
 .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .issue-container .list-group-item {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .list-group-item {
-    margin-bottom: 1px;
-    border-bottom: 1px solid whitesmoke;
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-    user-select: none;
+  margin-bottom: 1px;
+  border-bottom: 1px solid whitesmoke;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
 }
 
-.list-group-item [name*='edit'] {
-    display: inline;
-    opacity: 0;
-    transition: 0.3s;
+.list-group-item [name*="edit"] {
+  display: inline;
+  opacity: 0;
+  transition: 0.3s;
 }
 
-.issue-container .list-group-item [name*='edit'] {
-    opacity: 1;
-    display: flex;
+.issue-container .list-group-item [name*="edit"] {
+  opacity: 1;
+  display: flex;
 }
 
-.list-group-item:hover [name*='edit'] {
-    display: inline;
-    opacity: 1;
+.list-group-item:hover [name*="edit"] {
+  display: inline;
+  opacity: 1;
 }
 
 .modal-footer {
-    border-top: none;
+  border-top: none;
 }
 
 .issue-container .info {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+}
+
+input[name="user-update"][value="false"]
+  ~ .modal-footer
+  > button[name="delete-user"] {
+  display: none;
+}
+
+input[name="book-id"][value="0"] ~ .modal-footer > button[name="delete-book"] {
+  display: none;
+}
+
+section.issue {
+  position: sticky;
+  top: 0px;
+  z-index: 50;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+header {
+  position: relative;
+  z-index: 52;
+}
+
+.card {
+  max-height: 65vh;
+  overflow: auto;
+  position: relative;
+}
+
+.card-header {
+  position: sticky;
+  top: 0px;
+  z-index: 2;
+  backdrop-filter: blur(5px);
+}
+
+.search-input {
+  height: 100%;
+  width: auto;
+  margin: 5px;
 }

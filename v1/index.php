@@ -21,7 +21,7 @@ include_once("./requestHandler.php");
 <body>
   <header>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
-      <a class="navbar-brand" href="#">LibManLite</a>
+      <a class="navbar-brand" href="index.php">LibManLite</a>
       <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -70,19 +70,25 @@ include_once("./requestHandler.php");
         <div class="col-md-4 books-container mb-2">
           <div class="card border-light">
             <div class="card-header">
-              <h3 class="title">Books</h3>
+               <h3 class="title">Books</h3>
               <!-- Button trigger modal: add book -->
-              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#add-book-modal">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-              </button>
+              <div class="btn-group">
+                <button type="button" name="search" class="btn btn-primary btn-lg">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#add-book-modal">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
+            <input type="text" class="form-control search-input" name="search-books" placeholder="Search books">
             <ul class="list-group">
               <?php
               $books = getBooks();
               if ($books->num_rows > 0) {
                 // output data of each row
                 while ($row = $books->fetch_assoc()) {
-                  echo '<li class="list-group-item" data-id="'.$row["id"].'">
+                  echo '<li class="list-group-item" data-id="' . $row["id"] . '">
                                                 <span>
                                                 <span class="id">' . $row["id"] . '</span>
                                                 <span class="name font-weight-bold">: ' . $row["name"] . ' </span>
@@ -104,10 +110,16 @@ include_once("./requestHandler.php");
             <div class="card-header">
               <h3 class="title">Users</h3>
               <!-- Button trigger modal: add user -->
-              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#add-user-modal">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-              </button>
+              <div class="btn-group">
+                <button type="button" name="search" class="btn btn-primary btn-lg">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#add-user-modal">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
+            <input type="text" class="form-control search-input" name="search-users" placeholder="Search users">
             <ul class="list-group">
               <?php
               $users = getUsers();
@@ -190,9 +202,9 @@ include_once("./requestHandler.php");
           <div class="modal-body">
             <div class="container-fluid">
               <form action="<?php $_PHP_SELF ?>" method="POST">
-                <div class="form-group">
-                  <input hidden required value="0" type="number" class="form-control" name="book-id" id="book-id" />
-                </div>
+
+                <input hidden required value="0" type="number" class="form-control" name="book-id" id="book-id" />
+
                 <div class="form-group">
                   <label for="book-name">Book Name: </label>
                   <input required type="text" class="form-control" name="book-name" id="book-name" placeholder="e.g. ABCD Book" />
