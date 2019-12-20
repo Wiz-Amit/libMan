@@ -70,7 +70,7 @@ include_once("./requestHandler.php");
         <div class="col-md-4 books-container mb-2">
           <div class="card border-light">
             <div class="card-header">
-               <h3 class="title">Books</h3>
+              <h3 class="title">Books</h3>
               <!-- Button trigger modal: add book -->
               <div class="btn-group">
                 <button type="button" name="search" class="btn btn-primary btn-lg">
@@ -88,15 +88,16 @@ include_once("./requestHandler.php");
               if ($books->num_rows > 0) {
                 // output data of each row
                 while ($row = $books->fetch_assoc()) {
-                  echo '<li class="list-group-item" data-id="' . $row["id"] . '">
-                                                <span>
-                                                <span class="id">' . $row["id"] . '</span>
-                                                <span class="name font-weight-bold">: ' . $row["name"] . ' </span>
-                                                <span class="authors">by ' . $row["authors"] . '</span>
-                                                <span class="count">(' . $row["count"] . ' copies)</span></span>
-                                                <button name="edit-book" class="btn btn-primary"><i class="fas fa-pen"></i></button>
-                                                </li>';
-                }
+              ?>
+                  <li class="list-group-item" data-id="<?php echo $row["id"]; ?>">
+                    <span>
+                      <span class="id"><?php echo $row["id"]; ?></span>
+                      <span class="name font-weight-bold">: <?php echo $row["name"]; ?> </span>
+                      <span class="authors">by <?php echo $row["authors"]; ?></span>
+                      <span class="count">(<?php echo $row["count"]; ?> copies)</span></span>
+                    <button name="edit-book" class="btn btn-primary"><i class="fas fa-pen"></i></button>
+                  </li>
+              <?php }
               } else {
                 echo "0 results";
               }
@@ -125,11 +126,13 @@ include_once("./requestHandler.php");
               $users = getUsers();
               if ($users->num_rows > 0) {
                 // output data of each row
-                while ($row = $users->fetch_assoc()) {
-                  echo '<li class="list-group-item" data-id="' . $row["email"] . '"><span><span class="name font-weight-bold"> ' . $row["name"] . ' </span><span class="id">(' . $row["email"] . ')</span></span>
-                        <button name="edit-user" class="btn btn-primary"><i class="fas fa-pen"></i></button>
-                        </li>';
-                }
+                while ($row = $users->fetch_assoc()) { ?>
+                  <li class="list-group-item" data-id="<?php echo $row["email"]; ?>"><span>
+                      <span class="name font-weight-bold"> <?php echo $row["name"]; ?> </span>
+                      <span class="id">(<?php echo $row["email"]; ?>)</span></span>
+                    <button name="edit-user" class="btn btn-primary"><i class="fas fa-pen"></i></button>
+                  </li>
+              <?php }
               } else {
                 echo "0 results";
               }
@@ -142,40 +145,29 @@ include_once("./requestHandler.php");
           <div class="card border-light">
             <h3 class="title card-header">Issued</h3>
             <ul class="list-group">
-              <!-- <li class="list-group-item">
-                <span class="book">
-                  <span class="id">1: </span>
-                  <span class="name">ABCD</span>
-                </span>
-                <span class="user">
-                  <span class="id">1: </span>
-                  <span class="name">John Doe</span>
-                </span>
-              </li> -->
               <?php
               $register = getRegister();
               if ($register->num_rows > 0) {
                 // output data of each row
-                while ($row = $register->fetch_assoc()) {
-                  echo '<li class="list-group-item">
-                  
-                  <span class="info">
-                    <span class="book">
-                      <span class="id">Book: ' . $row["book_name"] . '</span>
-                      <span class="name"></span>
+                while ($row = $register->fetch_assoc()) { ?>
+                  <li class="list-group-item">
+                    <span class="info">
+                      <span class="book">
+                        <span class="id">Book: <?php echo $row["book_name"]; ?> </span>
+                        <span class="name"></span>
+                      </span>
+                      <span class="user">
+                        <span class="id">Issued to: <?php echo $row["username"]; ?> </span>
+                        <span class="name"></span>
+                      </span>
                     </span>
-                    <span class="user">
-                      <span class="id">Issued to: ' . $row["username"] . '</span>
-                      <span class="name"></span>
-                    </span>
-                  </span>
-                  
-                  <form action="' . $_SERVER['PHP_SELF'] . '" method="POST">
-                    <input required hidden type="number" value=' . $row["id"] . ' name="issue-id">
-                    <button type="submit" name="return-book" class="btn btn-primary">Return</button>
-                  </form>
-                  </li>';
-                }
+
+                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                      <input required hidden type="number" value="<?php echo $row["id"]; ?>" name="issue-id">
+                      <button type="submit" name="return-book" class="btn btn-primary">Return</button>
+                    </form>
+                  </li>
+              <?php }
               } else {
                 echo "0 results";
               }
