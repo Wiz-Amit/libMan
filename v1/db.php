@@ -27,6 +27,38 @@ function getBooks()
     return $result;
 }
 
+function getBook($id)
+{
+    include("../connection.php");
+    $sql = "SELECT * FROM books WHERE id = $id;";
+    $result = $conn->query($sql);
+
+    return $result;
+}
+
+function haveBook($id) {
+    $book = getBook($id)->fetch_assoc();
+    return ($book["count"] > 0);
+}
+
+function increaseBookCount($id, $val = 1)
+{
+    include("../connection.php");
+    $sql = "UPDATE books SET count = count + $val WHERE id = $id;";
+    $result = $conn->query($sql);
+
+    return $result;
+}
+
+function decreaseBookCount($id, $val = 1)
+{
+    include("../connection.php");
+    $sql = "UPDATE books SET count = count - $val WHERE id = $id;";
+    $result = $conn->query($sql);
+
+    return $result;
+}
+
 function addBook($name, $authors, $count)
 {
     include("../connection.php");
@@ -37,7 +69,8 @@ function addBook($name, $authors, $count)
     return $result;
 }
 
-function getRegister() {
+function getRegister()
+{
     include("../connection.php");
     $sql = "SELECT * FROM `register`
     INNER JOIN (SELECT email as user_email, name as username FROM `users`) u ON register.user_email = u.user_email
@@ -47,23 +80,38 @@ function getRegister() {
     return $result;
 }
 
-function issueBook($book_id, $user_email) {
+function issueBook($book_id, $user_email)
+{
     include("../connection.php");
     $sql = "INSERT INTO `register` (`id`, `book_id`, `user_email`, `issued_on`) VALUES (NULL, '" . $book_id . "', '" . $user_email . "', CURRENT_TIMESTAMP);";
-    $result = $conn->query($sql);
 
-    return $result;
+    if (haveBook($book_id)) {
+        $result = $conn->query($sql);
+        decreaseBookCount($book_id);
+        return $result;
+    }
 }
 
-function unissueBook($id) {
+function unissueBook($id)
+{
     include("../connection.php");
+
+    //getting book id
+    $sql = "SELECT * FROM `register` WHERE `register`.`id` = $id";
+    $result = $conn->query($sql);
+    $issueRecord = $result->fetch_assoc();
+
+    //deleting issue record
     $sql = "DELETE FROM `register` WHERE `register`.`id` = $id";
     $result = $conn->query($sql);
 
+    increaseBookCount($issueRecord["book_id"]);
+
     return $result;
 }
 
-function deleteBook($id) {
+function deleteBook($id)
+{
     include("../connection.php");
     $sql = "DELETE FROM `books` WHERE `books`.`id` = $id";
     $result = $conn->query($sql);
@@ -71,7 +119,8 @@ function deleteBook($id) {
     return $result;
 }
 
-function deleteUser($id) {
+function deleteUser($id)
+{
     include("../connection.php");
     $sql = "DELETE FROM `users` WHERE `users`.`email` = '$id'";
     $result = $conn->query($sql);
@@ -79,7 +128,8 @@ function deleteUser($id) {
     return $result;
 }
 
-function updateBook($id, $name, $authors, $count) {
+function updateBook($id, $name, $authors, $count)
+{
     include("../connection.php");
     $sql = "UPDATE `books` SET `name` = '$name', `authors` = '$authors', `count` = '$count' WHERE `books`.`id` = $id;";
     $result = $conn->query($sql);
@@ -87,7 +137,8 @@ function updateBook($id, $name, $authors, $count) {
     return $result;
 }
 
-function updateUser($email, $name) {
+function updateUser($email, $name)
+{
     include("../connection.php");
     $sql = "UPDATE `users` SET `name` = '$name' WHERE `users`.`email` = '$email';";
     $result = $conn->query($sql);
