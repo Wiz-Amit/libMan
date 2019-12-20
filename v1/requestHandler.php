@@ -13,7 +13,6 @@ elseif (isset($_POST["save-user"]) && isset($_POST["user-update"]) && isset($_PO
     // if (preg_match("/[^A-Za-z'-]/", $_POST["user-name"])) {
     //     die("invalid name and name should be alpha");
     // }
-    // echo "email:" . $_POST["user-email"] . "<br> name:" . $_POST["user-name"] . "";
     if ($_POST["user-update"] == "true") {
         updateUser($_POST["user-email"], $_POST["user-name"]);
     } else {
