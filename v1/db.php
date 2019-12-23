@@ -19,10 +19,16 @@ function runSQL($sql)
     return toArray($result);
 }
 
+function selectAll($tableName, $orderBy = "id")
+{
+    $sql = "SELECT * FROM $tableName ";
+    $sql = $sql . "ORDER BY `$orderBy` asc;";
+    return runSQL($sql);
+} 
+
 function getUsers()
 {
-    $sql = "SELECT * FROM users ORDER BY `name` asc;";
-    return runSQL($sql);
+    return selectAll("users", "name");
 }
 
 function addUser($email, $name)
@@ -33,8 +39,7 @@ function addUser($email, $name)
 
 function getBooks()
 {
-    $sql = "SELECT * FROM books ORDER BY `name` asc;";
-    return runSQL($sql);
+    return selectAll("books", "name");
 }
 
 function getBook($id)
@@ -71,14 +76,17 @@ function addBook($name, $authors, $count)
 function getRegister()
 {
     $sql = "SELECT * FROM `register`
-    INNER JOIN (SELECT email as user_email, name as username FROM `users`) u ON register.user_email = u.user_email
-    INNER JOIN (SELECT id as book_id, name as book_name FROM `books`) b on register.book_id = b.book_id ORDER BY id desc;";
+    INNER JOIN (SELECT email as user_email, name as username FROM `users`) u
+    ON register.user_email = u.user_email
+    INNER JOIN (SELECT id as book_id, name as book_name FROM `books`) b
+    on register.book_id = b.book_id ORDER BY id desc;";
     return runSQL($sql);
 }
 
 function issueBook($book_id, $user_email)
 {
-    $sql = "INSERT INTO `register` (`id`, `book_id`, `user_email`, `issued_on`) VALUES (NULL, '" . $book_id . "', '" . $user_email . "', CURRENT_TIMESTAMP);";
+    $sql = "INSERT INTO `register` (`id`, `book_id`, `user_email`, `issued_on`)
+    VALUES (NULL, '" . $book_id . "', '" . $user_email . "', CURRENT_TIMESTAMP);";
 
     if (haveBook($book_id)) {
         decreaseBookCount($book_id);
@@ -89,7 +97,7 @@ function issueBook($book_id, $user_email)
 function unissueBook($id)
 {
     //getting book id
-    $sql = "SELECT * FROM `register` WHERE `register`.`id` = $id";
+    $sql = "SELECT * FROM `register`WHERE `register`.`id` = $id";
     $issueRecord = runSQL($sql)[0];
 
     increaseBookCount($issueRecord["book_id"]);
