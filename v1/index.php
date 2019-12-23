@@ -85,16 +85,15 @@ include_once("./requestHandler.php");
             <ul class="list-group">
               <?php
               $books = getBooks();
-              if ($books->num_rows > 0) {
+              if ($books) {
                 // output data of each row
-                while ($row = $books->fetch_assoc()) {
-              ?>
-                  <li class="list-group-item" data-id="<?php echo $row["id"]; ?>">
+                foreach ($books as $book) { ?>
+                  <li class="list-group-item" data-id="<?php echo $book["id"]; ?>">
                     <span>
-                      <span class="id"><?php echo $row["id"]; ?></span>
-                      <span class="name font-weight-bold">: <?php echo $row["name"]; ?> </span>
-                      <span class="authors">by <?php echo $row["authors"]; ?></span>
-                      <span class="count">(<?php echo $row["count"]; ?> copies)</span></span>
+                      <span class="id"><?php echo $book["id"]; ?></span>
+                      <span class="name font-weight-bold">: <?php echo $book["name"]; ?> </span>
+                      <span class="authors">by <?php echo $book["authors"]; ?></span>
+                      <span class="count">(<?php echo $book["count"]; ?> copies)</span></span>
                     <button name="edit-book" class="btn btn-primary"><i class="fas fa-pen"></i></button>
                   </li>
               <?php }
@@ -124,12 +123,12 @@ include_once("./requestHandler.php");
             <ul class="list-group">
               <?php
               $users = getUsers();
-              if ($users->num_rows > 0) {
+              if ($users) {
                 // output data of each row
-                while ($row = $users->fetch_assoc()) { ?>
-                  <li class="list-group-item" data-id="<?php echo $row["email"]; ?>"><span>
-                      <span class="name font-weight-bold"> <?php echo $row["name"]; ?> </span>
-                      <span class="id">(<?php echo $row["email"]; ?>)</span></span>
+                foreach ($users as $user) { ?>
+                  <li class="list-group-item" data-id="<?php echo $user["email"]; ?>"><span>
+                      <span class="name font-weight-bold"> <?php echo $user["name"]; ?> </span>
+                      <span class="id">(<?php echo $user["email"]; ?>)</span></span>
                     <button name="edit-user" class="btn btn-primary"><i class="fas fa-pen"></i></button>
                   </li>
               <?php }
@@ -146,24 +145,24 @@ include_once("./requestHandler.php");
             <h3 class="title card-header">Issued</h3>
             <ul class="list-group">
               <?php
-              $register = getRegister();
-              if ($register->num_rows > 0) {
+              $issues = getRegister();
+              if ($issues) {
                 // output data of each row
-                while ($row = $register->fetch_assoc()) { ?>
+                foreach ($issues as $issue) { ?>
                   <li class="list-group-item">
                     <span class="info">
                       <span class="book">
-                        <span class="id">Book: <?php echo $row["book_name"]; ?> </span>
+                        <span class="id">Book: <?php echo $issue["book_name"]; ?> </span>
                         <span class="name"></span>
                       </span>
                       <span class="user">
-                        <span class="id">Issued to: <?php echo $row["username"]; ?> </span>
+                        <span class="id">Issued to: <?php echo $issue["username"]; ?> </span>
                         <span class="name"></span>
                       </span>
                     </span>
 
                     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-                      <input required hidden type="number" value="<?php echo $row["id"]; ?>" name="issue-id">
+                      <input required hidden type="number" value="<?php echo $issue["id"]; ?>" name="issue-id">
                       <button type="submit" name="return-book" class="btn btn-primary">Return</button>
                     </form>
                   </li>

@@ -1,147 +1,125 @@
 <?php
 
-function getUsers()
+function toArray($result)
+{
+    if (is_bool($result)) return $result;
+
+    $rows = [];
+    while ($row = mysqli_fetch_array($result)) {
+        $rows[] = $row;
+    }
+
+    return $rows;
+}
+
+function runSQL($sql)
 {
     include("../connection.php");
-    $sql = "SELECT * FROM users ORDER BY `name` asc;";
     $result = $conn->query($sql);
+    return toArray($result);
+}
 
-    return $result;
+function getUsers()
+{
+    $sql = "SELECT * FROM users ORDER BY `name` asc;";
+    return runSQL($sql);
 }
 
 function addUser($email, $name)
 {
-    include("../connection.php");
     $sql = "INSERT INTO `users` (`email`, `name`) VALUES ('" . $email . "', '" . $name . "');";
-    $result = $conn->query($sql);
-
-    return $result;
+    return runSQL($sql);
 }
 
 function getBooks()
 {
-    include("../connection.php");
     $sql = "SELECT * FROM books ORDER BY `name` asc;";
-    $result = $conn->query($sql);
-
-    return $result;
+    return runSQL($sql);
 }
 
 function getBook($id)
 {
-    include("../connection.php");
     $sql = "SELECT * FROM books WHERE id = $id;";
-    $result = $conn->query($sql);
-
-    return $result;
+    return runSQL($sql);
 }
 
-function haveBook($id) {
-    $book = getBook($id)->fetch_assoc();
+function haveBook($id)
+{
+    $book = getBook($id)[0];
     return ($book["count"] > 0);
 }
 
 function increaseBookCount($id, $val = 1)
 {
-    include("../connection.php");
     $sql = "UPDATE books SET count = count + $val WHERE id = $id;";
-    $result = $conn->query($sql);
-
-    return $result;
+    return runSQL($sql);
 }
 
 function decreaseBookCount($id, $val = 1)
 {
-    include("../connection.php");
     $sql = "UPDATE books SET count = count - $val WHERE id = $id;";
-    $result = $conn->query($sql);
-
-    return $result;
+    return runSQL($sql);
 }
 
 function addBook($name, $authors, $count)
 {
-    include("../connection.php");
     $sql = "INSERT INTO `books` (`id`, `name`, `authors`, `count`)
     VALUES (NULL, '" . $name . "', '" . $authors . "', '" . $count . "');";
-    $result = $conn->query($sql);
-
-    return $result;
+    return runSQL($sql);
 }
 
 function getRegister()
 {
-    include("../connection.php");
     $sql = "SELECT * FROM `register`
     INNER JOIN (SELECT email as user_email, name as username FROM `users`) u ON register.user_email = u.user_email
     INNER JOIN (SELECT id as book_id, name as book_name FROM `books`) b on register.book_id = b.book_id ORDER BY id desc;";
-    $result = $conn->query($sql);
-
-    return $result;
+    return runSQL($sql);
 }
 
 function issueBook($book_id, $user_email)
 {
-    include("../connection.php");
     $sql = "INSERT INTO `register` (`id`, `book_id`, `user_email`, `issued_on`) VALUES (NULL, '" . $book_id . "', '" . $user_email . "', CURRENT_TIMESTAMP);";
 
     if (haveBook($book_id)) {
-        $result = $conn->query($sql);
         decreaseBookCount($book_id);
-        return $result;
+        return runSQL($sql);
     }
 }
 
 function unissueBook($id)
 {
-    include("../connection.php");
-
     //getting book id
     $sql = "SELECT * FROM `register` WHERE `register`.`id` = $id";
-    $result = $conn->query($sql);
-    $issueRecord = $result->fetch_assoc();
-
-    //deleting issue record
-    $sql = "DELETE FROM `register` WHERE `register`.`id` = $id";
-    $result = $conn->query($sql);
+    $issueRecord = runSQL($sql)[0];
 
     increaseBookCount($issueRecord["book_id"]);
 
-    return $result;
+    //deleting issue record
+    $sql = "DELETE FROM `register` WHERE `register`.`id` = $id";
+
+    return runSQL($sql);
 }
 
 function deleteBook($id)
 {
-    include("../connection.php");
     $sql = "DELETE FROM `books` WHERE `books`.`id` = $id";
-    $result = $conn->query($sql);
-
-    return $result;
+    return runSQL($sql);
 }
 
 function deleteUser($id)
 {
-    include("../connection.php");
     $sql = "DELETE FROM `users` WHERE `users`.`email` = '$id'";
-    $result = $conn->query($sql);
-
-    return $result;
+    return runSQL($sql);
 }
 
 function updateBook($id, $name, $authors, $count)
 {
-    include("../connection.php");
     $sql = "UPDATE `books` SET `name` = '$name', `authors` = '$authors', `count` = '$count' WHERE `books`.`id` = $id;";
-    $result = $conn->query($sql);
-
-    return $result;
+    return runSQL($sql);
 }
 
 function updateUser($email, $name)
 {
-    include("../connection.php");
     $sql = "UPDATE `users` SET `name` = '$name' WHERE `users`.`email` = '$email';";
-    $result = $conn->query($sql);
-
-    return $result;
+    return runSQL($sql);
 }
